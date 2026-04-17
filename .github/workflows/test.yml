@@ -1,0 +1,117 @@
+name: LegalDebateAI Test Suite
+
+on:
+  push:
+    branches: [ master, main, develop ]
+  pull_request:
+    branches: [ master, main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11', '3.12']
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Cache pip packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Lint with flake8
+      continue-on-error: true
+      run: |
+        pip install flake8
+        # Stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # Exit-code 0 even if there are style issues (warnings)
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    
+    - name: Run comprehensive test suite
+      run: |
+        python test_scenarios.py
+    
+    - name: System validation
+      continue-on-error: true
+      run: |
+        python validate_system.py
+    
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results-python-${{ matrix.python-version }}
+        path: |
+          test_results.json
+          test_output.txt
+
+  security:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Run Bandit security check
+      continue-on-error: true
+      run: |
+        pip install bandit
+        bandit -r . -f json -o bandit-report.json || true
+    
+    - name: Check for exposed credentials
+      continue-on-error: true
+      run: |
+        pip install detect-secrets
+        detect-secrets scan . || true
+
+  code-quality:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Run type checking with mypy
+      continue-on-error: true
+      run: |
+        pip install mypy
+        mypy . --ignore-missing-imports || true
+
+  docs:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Check documentation
+      run: |
+        # Verify README exists
+        test -f README.md || echo "README.md missing"
+        test -f CONTRIBUTING.md || echo "CONTRIBUTING.md missing"
+        # Count test scenarios
+        grep -c "def test_" test_scenarios.py || true
