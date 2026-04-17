@@ -1,0 +1,73 @@
+﻿python : Warning: You are sending unauthenticated requests to the HF Hub. 
+Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+At line:1 char:1
++ python test_scenarios.py 2>&1 | Out-File test_output.log -Encoding UT ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Warning: You ar...ster downloads. 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+
++====================================================================+
+|               LEGALDEBASEAI TEST SUITE                             |
+|               12 Comprehensive Test Scenarios                     |
++====================================================================+
+
+======================================================================
+TEST 1: Module Imports & Structure
+======================================================================
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|##########| 199/199 [00:00<00:00, 6030.39it/s]
+[1mMPNetModel LOAD REPORT[0m from: sentence-transformers/all-mpnet-base-v2
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; 
+not ok if you expect identical arch.
+Traceback (most recent call last):
+  File "C:\Users\vemul\LegalDebateAI\test_scenarios.py", line 86, in 
+test_1_imports_and_structure
+    print("\u2713 All core modules imported successfully")
+  File "C:\Users\vemul\AppData\Local\Programs\Python\Python312\Lib\encodings\cp
+1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2713' in 
+position 0: character maps to <undefined>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\vemul\LegalDebateAI\test_scenarios.py", line 493, in 
+run_all_tests
+    passed = test_func()
+             ^^^^^^^^^^^
+  File "C:\Users\vemul\LegalDebateAI\test_scenarios.py", line 97, in 
+test_1_imports_and_structure
+    print(f"\u274c TEST 1 FAILED: {str(e)}\n")
+  File "C:\Users\vemul\AppData\Local\Programs\Python\Python312\Lib\encodings\cp
+1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u274c' in 
+position 0: character maps to <undefined>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\vemul\LegalDebateAI\test_scenarios.py", line 533, in <module>
+    success = run_all_tests()
+              ^^^^^^^^^^^^^^^
+  File "C:\Users\vemul\LegalDebateAI\test_scenarios.py", line 496, in 
+run_all_tests
+    print(f"\u26a0 Test {test_func.__name__} crashed: {str(e)}")
+  File "C:\Users\vemul\AppData\Local\Programs\Python\Python312\Lib\encodings\cp
+1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u26a0' in 
+position 0: character maps to <undefined>

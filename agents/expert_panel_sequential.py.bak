@@ -1,0 +1,185 @@
+"""Expert Panel — 4 domain experts identify issues and impact in each GO."""
+import json
+import httpx
+from anthropic import Anthropic, APIConnectionError
+from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
+from config import ANTHROPIC_API_KEY, QUALITY_CLOUD_MODEL, TEMPERATURE
+from agents.utils import parse_llm_json
+from agents.cache_manager import get_cached_analysis, cache_analysis
+
+client = Anthropic(
+    api_key=ANTHROPIC_API_KEY,
+    max_retries=3,
+    timeout=httpx.Timeout(120.0, connect=30.0),
+)
+
+EXPERTS = [
+    {
+        "id": "constitutional",
+        "name": "Constitutional Law Expert",
+        "system": """You are a Senior Constitutional Law Expert specializing in Indian constitutional law.
+Analyze Telangana Government Orders for constitutional violations.
+Focus: Fundamental Rights (Art 12-35), Art 14 (equality/arbitrary action), Art 19 (freedoms),
+Art 21 (life/livelihood), Art 254 (repugnancy with central law), 7th Schedule (legislative competence),
+Art 300A (property rights), Art 309/310 (service conditions). Cite exact Articles and binding SC precedents.""",
+    },
+    {
+        "id": "admin_law",
+        "name": "Administrative & Service Law Expert",
+        "system": """You are a Senior Administrative and Service Law Expert for Telangana.
+Analyze Government Orders for administrative law violations.
+Focus: Ultra vires, delegated legislation validity, natural justice (audi alteram partem, nemo judex),
+legitimate expectations, procedural compliance, TS State and Subordinate Services Rules 1996,
+TS Government Servants Conduct Rules, Transfer Act compliance, arbitrary exercise of power,
+colourable exercise of power, malice in law.""",
+    },
+    {
+        "id": "public_interest",
+        "name": "Public Interest & Rights Expert",
+        "system": """You are a Senior Public Interest Litigation expert and rights advocate for Telangana.
+Analyze Government Orders for public interest violations.
+Focus: PIL grounds, SC/ST/OBC reservations (Art 15/16), women's rights, disability rights,
+minority rights, RTI implications (transparency/accountability), environmental impact,
+impact on marginalized communities, violation of welfare schemes, public trust doctrine.""",
+    },
+    {
+        "id": "fiscal_policy",
+        "name": "Fiscal & Policy Analyst",
+        "system": """You are a Senior Government Policy and Fiscal Analyst for Telangana State.
+Analyze Government Orders for policy and financial issues.
+Focus: Financial burden on state exchequer, TS FRBM Act compliance, budget implications,
+implementation feasibility, conflict with existing schemes/policies, procurement irregularities,
+value for money, unintended policy consequences, conflict with central schemes/NITI Aayog guidelines.""",
+    },
+]
+
+ISSUE_SCHEMA = """{
+  "issues": [
+    {
+      "issue_id": "X1",
+      "title": "Brief issue title",
+      "description": "Detailed description of the legal/policy issue",
+      "legal_provisions": ["Article 14", "Section X of Y Act"],
+      "impact": {
+        "affected_parties": ["list of affected groups"],
+        "severity": "CRITICAL|HIGH|MEDIUM|LOW",
+        "immediate_impact": "What happens immediately if GO is implemented",
+        "long_term_impact": "Long-term consequences if unchallenged",
+        "reversibility": "IRREVERSIBLE|DIFFICULT|POSSIBLE|EASY",
+        "estimated_affected_count": "approximate number if determinable, else null"
+      },
+      "court_challenge_probability": "HIGH|MEDIUM|LOW",
+      "suggested_remedy": "Specific amendment or action to make GO legally valid"
+    }
+  ],
+  "critical_count": 0,
+  "summary": "One paragraph overall expert assessment of this GO"
+}"""
+
+
+def _analyze(expert: dict, context: dict) -> dict:
+    go_summary = json.dumps({
+        "go_metadata": context.get("go_metadata"),
+        "go_text": context.get("go_text", "")[:1500],
+        "related_articles": [c["text"][:200] for c in context.get("related_articles", [])[:3]],
+        "related_acts":     [c["text"][:200] for c in context.get("related_acts", [])[:3]],
+        "state_laws":       [c["text"][:200] for c in context.get("state_laws", [])[:3]],
+        "relevant_verdicts":[c["text"][:150] for c in context.get("relevant_verdicts", [])[:2]],
+    }, indent=2)
+
+    prompt = f"""Analyze this Telangana Government Order strictly from your expert domain.
+
+CONTEXT:
+{go_summary}
+
+Return ONLY valid JSON in this exact structure (no markdown, no explanation):
+{ISSUE_SCHEMA}
+
+Be specific: cite exact laws, estimate real-world impact numbers, give actionable remedies."""
+
+    @retry(
+        retry=retry_if_exception_type(APIConnectionError),
+        stop=stop_after_attempt(4),
+        wait=wait_exponential(multiplier=2, min=4, max=30),
+        reraise=True,
+    )
+    def _call():
+        return client.messages.create(
+            model=QUALITY_CLOUD_MODEL,
+            max_tokens=4000,
+            temperature=TEMPERATURE,
+            system=expert["system"],
+            messages=[{"role": "user", "content": prompt}],
+        )
+
+    text = _call().content[0].text
+    try:
+        result = parse_llm_json(text)
+        result["expert"] = expert["name"]
+        result["expert_id"] = expert["id"]
+        return result
+    except Exception:
+        return {
+            "expert": expert["name"], "expert_id": expert["id"],
+            "issues": [], "critical_count": 0,
+            "summary": text[:500], "error": "parse_failed",
+        }
+
+
+def run_expert_panel(context: dict, use_cache: bool = True) -> dict:
+    """
+    Run all 4 experts and consolidate findings.
+    
+    Args:
+        context: RAG context with GO metadata and related documents
+        use_cache: If True, check cache first and store results (default: True)
+    
+    Returns:
+        Expert panel analysis with issues, critical count, and recommendations
+    """
+    # Check cache first if enabled
+    if use_cache:
+        cached = get_cached_analysis(context)
+        if cached:
+            cached["_from_cache"] = True
+            return cached
+    
+    # If not cached, run analysis
+    results = {}
+    all_issues = []
+
+    for expert in EXPERTS:
+        analysis = _analyze(expert, context)
+        results[expert["id"]] = analysis
+        for issue in analysis.get("issues", []):
+            issue["expert_id"] = expert["id"]
+            issue["expert_name"] = expert["name"]
+            all_issues.append(issue)
+
+    # Simple deduplication by title prefix
+    seen = set()
+    unique_issues = []
+    for issue in all_issues:
+        key = issue.get("title", "")[:40].lower().strip()
+        if key and key not in seen:
+            seen.add(key)
+            unique_issues.append(issue)
+
+    critical = [i for i in unique_issues if i.get("impact", {}).get("severity") == "CRITICAL"]
+    high     = [i for i in unique_issues if i.get("impact", {}).get("severity") == "HIGH"]
+
+    panel_result = {
+        "expert_reports": results,
+        "consolidated_issues": unique_issues,
+        "critical_issues": critical,
+        "high_issues": high,
+        "total_issues": len(unique_issues),
+        "critical_count": len(critical),
+        "_from_cache": False,
+    }
+    
+    # Store in cache if enabled
+    if use_cache:
+        cache_analysis(context, panel_result)
+    
+    return panel_result

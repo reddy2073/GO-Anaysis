@@ -1,0 +1,13 @@
+{
+  "G.O. 999_b545feaf": {
+    "go_number": "G.O. 999",
+    "department": "Test Dept",
+    "go_date": "01-01-2025",
+    "cached_at": "2026-04-17T00:16:26.202322",
+    "analysis": {
+      "total_issues": 5,
+      "critical_count": 2,
+      "issues": []
+    }
+  }
+}

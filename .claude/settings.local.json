@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:gos.cgg.gov.in)",
+      "WebFetch(domain:goir.telangana.gov.in)",
+      "WebFetch(domain:www.telangana.gov.in)",
+      "WebFetch(domain:archive.org)",
+      "Bash(python -c \"import agents.judge_arbiter, agents.potato_analysis, agents.onion_analysis, agents.strategy_analysis, agents.go_lawyer, agents.const_lawyer; print\\('All agents import OK'\\)\")"
+    ]
+  }
+}

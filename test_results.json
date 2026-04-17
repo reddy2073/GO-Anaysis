@@ -1,0 +1,68 @@
+{
+  "timestamp": "2026-04-17 00:16:26",
+  "total_tests": 12,
+  "passed": 12,
+  "failed": 0,
+  "results": [
+    {
+      "name": "test_1_imports",
+      "passed": true,
+      "error": null
+    },
+    {
+      "name": "test_2_config",
+      "passed": true,
+      "error": null
+    },
+    {
+      "name": "test_3_metadata",
+      "passed": true,
+      "error": null
+    },
+    {
+      "name": "test_4_rag_structure",
+      "passed": true,
+      "error": null
+    },
+    {
+      "name": "test_5_cache",
+      "passed": true,
+      "error": null
+    },
+    {
+      "name": "test_6_chromadb",
+      "passed": true,
+      "error": null
+    },
+    {
+      "name": "test_7_go_lawyer",
+      "passed": true,
+      "error": null
+    },
+    {
+      "name": "test_8_const_lawyer",
+      "passed": true,
+      "error": null
+    },
+    {
+      "name": "test_9_judge",
+      "passed": true,
+      "error": null
+    },
+    {
+      "name": "test_10_analysis",
+      "passed": true,
+      "error": null
+    },
+    {
+      "name": "test_11_data_files",
+      "passed": true,
+      "error": null
+    },
+    {
+      "name": "test_12_config_file",
+      "passed": true,
+      "error": null
+    }
+  ]
+}

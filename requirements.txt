@@ -1,0 +1,51 @@
+# Core AI
+chromadb>=0.5.0
+sentence-transformers>=2.7.0
+anthropic>=0.40.0
+google-genai>=1.0.0
+openai>=1.40.0
+
+# PDF Processing & Vision
+pypdf>=4.0.0
+pdfplumber>=0.11.0
+pytesseract>=0.3.10
+pdf2image>=1.17.0
+Pillow>=10.0.0
+
+# NLP / Language / Embeddings
+langdetect>=1.0.9
+numpy>=1.26.0
+scikit-learn>=1.5.0  # For cosine_similarity in embeddings
+
+# Web Scraping & HTTP
+beautifulsoup4>=4.12.0
+requests>=2.32.0
+httpx>=0.27.0
+playwright>=1.45.0
+tenacity>=8.5.0
+
+# Scheduling
+APScheduler>=3.10.0
+
+# API / Server
+fastapi>=0.115.0
+uvicorn>=0.30.0
+
+# Optional: Local LLM Support
+ollama>=0.1.0  # For local Ollama integration
+
+# Utilities
+python-dotenv>=1.0.0
+
+# UI
+streamlit>=1.40.0
+
+# Utils
+python-dotenv>=1.0.0
+pandas>=2.2.0
+reportlab>=4.2.0
+tqdm>=4.66.0
+
+# Dev / Testing
+pytest>=8.0.0
+pytest-asyncio>=0.23.0
