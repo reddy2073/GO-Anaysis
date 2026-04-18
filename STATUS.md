@@ -1,6 +1,6 @@
 # LegalDebateAI — Data Ingestion Status
 
-> Last updated: **2026-04-18 13:16:10** (America/Chicago)
+> Last updated: **2026-04-18 14:11:28** (America/Chicago)
 
 ## Services
 
@@ -12,9 +12,9 @@
 ## Overall Progress
 
 ```
-   41.2%  [############------------------]
-   14,300 / 34,700 chunks
-  +581 chunks since last check  |  Est. completion: ~3.1d
+   49.3%  [##############----------------]
+   17,090 / 34,700 chunks
+  +2,790 chunks since last check  |  Est. completion: ~5.8h
 ```
 
 ## Collection Breakdown
@@ -24,7 +24,7 @@
 | Constitution of India | 182 | ~ | 200 | 91.0% `[#############--]` | stalled |  |
 | Central Acts (IndiaCode) | 8,934 | ~ | 5,000 | 100.0% `[###############]` | complete | Scraping 63% (314/500) |
 | Telangana State Acts | 2,705 | ~ | 2,500 | 100.0% `[###############]` | complete | Complete |
-| Court Verdicts (HuggingFace) | 893 | +581 | 2,000 | 44.6% `[######---------]` | ~4.1h |  |
+| Court Verdicts (HuggingFace) | 3,683 | +2,790 | 2,000 | 100.0% `[###############]` | complete | Complete |
 | Telangana GOs 2025 | 1,586 | ~ | 25,000 | 6.3% `[---------------]` | stalled |  |
 
 ## Notes
