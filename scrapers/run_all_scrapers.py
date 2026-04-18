@@ -4,7 +4,7 @@ Order:
   1. Constitution of India
   2. Central Acts (IndiaCode)
   3. Telangana State Acts
-  4. Court Verdicts (IndianKanoon)
+  4. Court Verdicts (HuggingFace datasets — SC + HC judgments, no API key required)
   5. Telangana GOs 2025 (remaining from Internet Archive)
 """
 
@@ -17,7 +17,7 @@ from config import CHROMA_PATH
 from scrapers.constitution_scraper import run_constitution
 from scrapers.central_acts_scraper  import run_central_acts
 from scrapers.state_acts_scraper    import run_state_acts
-from scrapers.verdicts_scraper      import run_verdicts
+from scrapers.verdicts_hf_scraper   import run_verdicts_hf
 from scrapers.ts_go_scraper         import run_phase1
 
 
@@ -76,10 +76,10 @@ def run_all(
         max_acts=max_state_acts, skip_existing=not fresh
     )
 
-    # 4. Court Verdicts
-    print("\n[4/5] Court Verdicts (Telangana HC + Supreme Court)")
-    results["verdicts"] = run_verdicts(
-        max_per_query=max_verdicts, skip_existing=not fresh
+    # 4. Court Verdicts (HuggingFace datasets — no API key required)
+    print("\n[4/5] Court Verdicts (HuggingFace: SC + HC judgments)")
+    results["verdicts"] = run_verdicts_hf(
+        max_sc_files=max_verdicts, max_hc_files=max_verdicts
     )
 
     # 5. Remaining Telangana GOs 2025
