@@ -1,20 +1,20 @@
 # LegalDebateAI — Data Ingestion Status
 
-> Last updated: **2026-04-18 17:56:49** (America/Chicago)
+> Last updated: **2026-04-18 18:00:11** (America/Chicago)
 
 ## Services
 
 | Service | Status |
 |---|---|
 | Scraper Pipeline | RUNNING |
-| API Server (port 8000) | STOPPED |
+| API Server (port 8000) | RUNNING |
 
 ## Overall Progress
 
 ```
    86.3%  [#########################-----]
    29,934 / 34,700 chunks
-  +3,310 chunks since last check  |  Est. completion: ~1.4h
+  +0 chunks since last check  |  Est. completion: stalled
 ```
 
 ## Collection Breakdown
@@ -24,13 +24,12 @@
 | Constitution of India | 182 | ~ | 200 | 91.0% `[#############--]` | stalled |  |
 | Central Acts (IndiaCode) | 8,934 | ~ | 5,000 | 100.0% `[###############]` | complete | Scraping 63% (314/500) |
 | Telangana State Acts | 2,705 | ~ | 2,500 | 100.0% `[###############]` | complete | Complete |
-| Court Verdicts (HuggingFace) | 16,527 | +3,310 | 2,000 | 100.0% `[###############]` | complete | Complete |
+| Court Verdicts (HuggingFace) | 16,527 | ~ | 2,000 | 100.0% `[###############]` | complete | Complete |
 | Telangana GOs 2025 | 1,586 | ~ | 25,000 | 6.3% `[---------------]` | stalled |  |
 
 ## Notes
 
 - **Biggest gap:** Telangana GOs 2025 needs 23,414 more chunks
-- **API server is down** — restart with `uvicorn api:app --port 8000`
 
 ## Targets Reference
 
