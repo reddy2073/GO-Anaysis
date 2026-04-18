@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python scrapers/run_all_scrapers.py *)",
+      "Bash(python scrapers/central_acts_scraper.py *)",
+      "Bash(python scrapers/state_acts_scraper.py *)",
+      "Bash(python scrapers/constitution_scraper.py *)",
+      "Bash(python scrapers/verdicts_scraper.py *)",
+      "Bash(python scrapers/ts_go_scraper.py *)",
+      "Bash(source venv/Scripts/activate *)",
+      "WebFetch(domain:www.indiacode.nic.in)",
+      "WebFetch(domain:indiankanoon.org)",
+      "WebFetch(domain:api.indiankanoon.org)",
+      "WebFetch(domain:law.telangana.gov.in)",
+      "WebFetch(domain:cdnbbsr.s3waas.gov.in)",
+      "WebFetch(domain:gos.cgg.gov.in)",
+      "WebFetch(domain:goir.telangana.gov.in)",
+      "WebFetch(domain:www.telangana.gov.in)",
+      "WebFetch(domain:archive.org)",
+      "WebFetch(domain:prsindia.org)",
+      "WebSearch"
+    ]
+  }
+}
