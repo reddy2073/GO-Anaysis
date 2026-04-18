@@ -34,7 +34,8 @@
       "Bash(tasklist)",
       "Bash(nohup python *)",
       "Bash(echo \"Scraper PID: $!\")",
-      "Bash(echo \"API PID: $!\")"
+      "Bash(echo \"API PID: $!\")",
+      "Bash(venv/Scripts/python *)"
     ]
   }
 }
