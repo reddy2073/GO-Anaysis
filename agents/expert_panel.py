@@ -216,7 +216,7 @@ def run_expert_panel(context: dict, use_cache: bool = True, verbose: bool = Fals
     all_issues = []
     start_time = time.time()
     
-    with ThreadPoolExecutor(max_workers=4) as executor:
+    with ThreadPoolExecutor(max_workers=2) as executor:
         # Submit all expert analyses simultaneously
         future_to_expert = {
             executor.submit(_analyze, expert, context): expert 
@@ -230,7 +230,7 @@ def run_expert_panel(context: dict, use_cache: bool = True, verbose: bool = Fals
                 analysis = future.result()
                 results[expert["id"]] = analysis
                 if verbose:
-                    print(f"      ✓ {expert['name']} completed")
+                    print(f"      [OK] {expert['name']} completed")
                 
                 for issue in analysis.get("issues", []):
                     issue["expert_id"] = expert["id"]
@@ -238,7 +238,7 @@ def run_expert_panel(context: dict, use_cache: bool = True, verbose: bool = Fals
                     all_issues.append(issue)
             except Exception as e:
                 if verbose:
-                    print(f"      ✗ {expert['name']} failed: {str(e)[:50]}")
+                    print(f"      [FAIL] {expert['name']} failed: {str(e)[:50]}")
                 results[expert["id"]] = {
                     "expert": expert["name"], 
                     "expert_id": expert["id"],

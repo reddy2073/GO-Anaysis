@@ -50,6 +50,9 @@ DATA_DIR = "./data"
 DB_DIR = "./db"
 SESSION_DB = "./db/sessions.db"
 
+# Indian Kanoon (court verdicts)
+INDIANKANOON_API_TOKEN = os.getenv("INDIANKANOON_API_TOKEN", "")
+
 # Telangana GO Portal
 TS_GO_PORTAL_URL = "https://gos.cgg.gov.in"
 TS_GO_DEPARTMENTS = [
