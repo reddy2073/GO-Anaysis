@@ -1,10 +1,10 @@
 {
-  "timestamp": "2026-04-19T09:30:04.824064",
+  "timestamp": "2026-04-19T10:00:18.773223",
   "counts": {
     "constitution_chunks": 182,
-    "central_acts_chunks": 8934,
-    "state_acts_chunks": 2705,
-    "court_verdicts_chunks": 32270,
+    "central_acts_chunks": 8936,
+    "state_acts_chunks": 2759,
+    "court_verdicts_chunks": 32311,
     "government_orders_chunks": 1586
   }
 }

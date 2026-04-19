@@ -109,13 +109,18 @@ if __name__ == "__main__":
                         help="Max GOs to fetch (archive has ~2349 for 2025)")
     parser.add_argument("--fresh", action="store_true",
                         help="Delete all existing data and re-ingest from scratch")
+    parser.add_argument("--no-confirm", action="store_true",
+                        help="Skip confirmation prompts for destructive operations")
     args = parser.parse_args()
 
     if args.fresh:
-        confirm = input("WARNING: --fresh will delete ALL existing ChromaDB data. Type 'yes' to confirm: ")
-        if confirm.strip().lower() != "yes":
-            print("Aborted.")
-            sys.exit(0)
+        if not args.no_confirm:
+            confirm = input("WARNING: --fresh will delete ALL existing ChromaDB data. Type 'yes' to confirm: ")
+            if confirm.strip().lower() != "yes":
+                print("Aborted.")
+                sys.exit(0)
+        else:
+            print("WARNING: --fresh enabled with --no-confirm, proceeding without confirmation...")
 
     run_all(
         max_central_acts=args.max_central_acts,

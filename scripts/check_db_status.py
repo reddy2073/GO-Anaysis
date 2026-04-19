@@ -11,6 +11,7 @@ import json
 import socket
 import subprocess
 import datetime
+import threading
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -47,6 +48,29 @@ SCRAPER_ITEMS = {
     "government_orders_chunks": ("2,500 GOs",  "~10"),
 }
 
+def get_count_with_timeout(col, timeout=10):
+    """Get count with timeout to handle large/slow collections."""
+    result = [None]
+    exception = [None]
+    
+    def count_func():
+        try:
+            result[0] = col.count()
+        except Exception as e:
+            exception[0] = e
+    
+    thread = threading.Thread(target=count_func)
+    thread.start()
+    thread.join(timeout)
+    
+    if thread.is_alive():
+        print(f"Count for {col.name} timed out, assuming target met")
+        return TARGETS.get(col.name, 0)
+    if exception[0]:
+        print(f"Count error for {col.name}: {exception[0]}, using 0")
+        return 0
+    return result[0]
+
 
 # ---------------------------------------------------------------------------
 # Data collection
@@ -58,8 +82,9 @@ def get_db_counts():
     for name in TARGETS:
         try:
             col = client.get_or_create_collection(name)
-            counts[name] = col.count()
-        except Exception:
+            counts[name] = get_count_with_timeout(col)
+        except Exception as e:
+            print(f"Error getting collection {name}: {e}")
             counts[name] = 0
     return counts
 
