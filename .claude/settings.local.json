@@ -36,7 +36,8 @@
       "Bash(echo \"Scraper PID: $!\")",
       "Bash(echo \"API PID: $!\")",
       "Bash(venv/Scripts/python *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(tasklist /FI \"PID eq 1533\")"
     ]
   }
 }
