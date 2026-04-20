@@ -27,7 +27,8 @@ def print_db_status():
         "constitution_chunks",
         "central_acts_chunks",
         "state_acts_chunks",
-        "court_verdicts_chunks",
+        "sc_verdicts_chunks",
+        "hc_verdicts_chunks",
         "government_orders_chunks",
     ]
     print("\n" + "=" * 55)

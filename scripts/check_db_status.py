@@ -12,6 +12,7 @@ import socket
 import subprocess
 import datetime
 import threading
+import io
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -20,6 +21,7 @@ from config import CHROMA_PATH
 
 PROJECT_DIR  = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATUS_FILE  = os.path.join(PROJECT_DIR, "STATUS.md")
+DISPLAY_LOG  = os.path.join(PROJECT_DIR, "scripts", "status_display.log")
 SNAPSHOT_FILE = os.path.join(PROJECT_DIR, "db", "status_snapshot.json")
 SCRAPER_LOG  = os.path.join(PROJECT_DIR, "scraper_pipeline.log")
 API_PORT     = 8000
@@ -28,7 +30,8 @@ TARGETS = {
     "constitution_chunks":      200,
     "central_acts_chunks":      5000,
     "state_acts_chunks":        2500,
-    "court_verdicts_chunks":    2000,
+    "sc_verdicts_chunks":       500000,
+    "hc_verdicts_chunks":       100000,
     "government_orders_chunks": 25000,
 }
 
@@ -36,16 +39,18 @@ LABELS = {
     "constitution_chunks":      "Constitution of India",
     "central_acts_chunks":      "Central Acts (IndiaCode)",
     "state_acts_chunks":        "Telangana State Acts",
-    "court_verdicts_chunks":    "Court Verdicts (HuggingFace)",
+    "sc_verdicts_chunks":       "SC Verdicts (all, no filter)",
+    "hc_verdicts_chunks":       "HC Verdicts (Telangana-filtered)",
     "government_orders_chunks": "Telangana GOs 2025",
 }
 
 SCRAPER_ITEMS = {
-    "constitution_chunks":      ("1 doc",      "~200"),
-    "central_acts_chunks":      ("500 acts",   "~10"),
-    "state_acts_chunks":        ("300 acts",   "~8"),
-    "court_verdicts_chunks":    ("400 files",  "~5"),
-    "government_orders_chunks": ("2,500 GOs",  "~10"),
+    "constitution_chunks":      ("1 doc",       "~200"),
+    "central_acts_chunks":      ("500 acts",    "~10"),
+    "state_acts_chunks":        ("300 acts",    "~8"),
+    "sc_verdicts_chunks":       ("76 parquet",  "~6,500"),
+    "hc_verdicts_chunks":       ("100 parquet", "~1,000"),
+    "government_orders_chunks": ("2,500 GOs",   "~10"),
 }
 
 def get_count_with_timeout(col, timeout=10):
@@ -365,4 +370,21 @@ def main():
 
 
 if __name__ == "__main__":
+    # Tee all stdout/stderr to DISPLAY_LOG so a terminal watcher can tail it
+    class Tee(io.TextIOBase):
+        def __init__(self, stream, log_path):
+            self._stream = stream
+            self._log = open(log_path, "a", encoding="utf-8", buffering=1)
+        def write(self, data):
+            self._stream.write(data)
+            self._stream.flush()
+            self._log.write(data)
+            self._log.flush()
+            return len(data)
+        def flush(self):
+            self._stream.flush()
+            self._log.flush()
+
+    sys.stdout = Tee(sys.__stdout__, DISPLAY_LOG)
+    sys.stderr = Tee(sys.__stderr__, DISPLAY_LOG)
     main()

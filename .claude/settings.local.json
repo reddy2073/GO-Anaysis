@@ -37,7 +37,11 @@
       "Bash(echo \"API PID: $!\")",
       "Bash(venv/Scripts/python *)",
       "Bash(git push *)",
-      "Bash(tasklist /FI \"PID eq 1533\")"
+      "Bash(tasklist /FI \"PID eq 1533\")",
+      "Bash(powershell *)",
+      "Bash(venv/Scripts/python.exe scrapers/verdicts_hf_scraper.py --sc-only)",
+      "Bash(venv/Scripts/python.exe *)",
+      "Skill(update-config)"
     ]
   }
 }
