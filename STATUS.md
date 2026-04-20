@@ -1,6 +1,6 @@
 # LegalDebateAI — Data Ingestion Status
 
-> Last updated: **2026-04-19 21:22:15** (America/Chicago)
+> Last updated: **2026-04-19 23:19:35** (America/Chicago)
 
 ## Services
 
@@ -12,9 +12,9 @@
 ## Overall Progress
 
 ```
-    1.9%  [------------------------------]
-   11,877 / 632,700 chunks
-  +0 chunks since last check  |  Est. completion: stalled
+    2.1%  [------------------------------]
+   13,463 / 632,700 chunks
+  +1,586 chunks since last check  |  Est. completion: ~31.8d
 ```
 
 ## Collection Breakdown
@@ -26,7 +26,7 @@
 | Telangana State Acts | 2,759 | ~ | 2,500 | 100.0% `[###############]` | complete | Complete |
 | SC Verdicts (all, no filter) | 0 | ~ | 500,000 | 0.0% `[---------------]` | stalled |  |
 | HC Verdicts (Telangana-filtered) | 0 | ~ | 100,000 | 0.0% `[---------------]` | stalled |  |
-| Telangana GOs 2025 | 0 | -1,586 | 25,000 | 0.0% `[---------------]` | stalled |  |
+| Telangana GOs 2025 | 1,586 | +1,586 | 25,000 | 6.3% `[---------------]` | ~1.2d |  |
 
 ## Notes
 
