@@ -1,0 +1,14 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|##########| 199/199 [00:00<00:00, 4237.62it/s]
+[1mMPNetModel LOAD REPORT[0m from: sentence-transformers/all-mpnet-base-v2
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+  [SC] Indian-Supreme-Court-Judgments — ALL judgments (no filter)
+  Current SC chunks: 1,028
+  Parquet files to process: 76
+  SC parquet files:   0%|          | 0/76 [00:00<?, ?it/s]  SC parquet files:   1%|1         | 1/76 [00:02<03:12,  2.57s/it]  SC parquet files:   3%|2         | 2/76 [00:05<03:27,  2.80s/it]  SC parquet files:   4%|3         | 3/76 [00:08<03:40,  3.02s/it]  SC parquet files:   5%|5         | 4/76 [00:12<03:54,  3.26s/it]  SC parquet files:   7%|6         | 5/76 [00:16<04:14,  3.58s/it]  SC parquet files:   8%|7         | 6/76 [00:20<04:20,  3.71s/it]  SC parquet files:   9%|9         | 7/76 [00:23<03:57,  3.44s/it]  SC parquet files:  11%|#         | 8/76 [00:26<03:56,  3.47s/it]  SC parquet files:  12%|#1        | 9/76 [00:31<04:19,  3.87s/it]  SC parquet files:  13%|#3        | 10/76 [00:37<04:50,  4.40s/it]  SC parquet files:  14%|#4        | 11/76 [02:29<40:22, 37.26s/it]
