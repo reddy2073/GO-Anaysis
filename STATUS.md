@@ -1,6 +1,6 @@
 # LegalDebateAI — Data Ingestion Status
 
-> Last updated: **2026-04-20 17:02:29** (America/Chicago)
+> Last updated: **2026-04-20 17:28:23** (America/Chicago)
 
 ## Services
 
@@ -12,9 +12,9 @@
 ## Overall Progress
 
 ```
-    4.1%  [#-----------------------------]
-   25,933 / 632,700 chunks
-  +0 chunks since last check  |  Est. completion: stalled
+    4.3%  [#-----------------------------]
+   27,158 / 632,700 chunks
+  +1,225 chunks since last check  |  Est. completion: ~8.9d
 ```
 
 ## Collection Breakdown
@@ -24,13 +24,13 @@
 | Constitution of India | 182 | ~ | 200 | 91.0% `[#############--]` | stalled |  |
 | Central Acts (IndiaCode) | 8,936 | ~ | 5,000 | 100.0% `[###############]` | complete | Scraping 63% (314/500) |
 | Telangana State Acts | 2,809 | ~ | 2,500 | 100.0% `[###############]` | complete | Complete |
-| SC Verdicts (all, no filter) | 4,345 | ~ | 500,000 | 0.9% `[---------------]` | stalled |  |
-| HC Verdicts (Telangana-filtered) | 7,578 | ~ | 100,000 | 7.6% `[#--------------]` | stalled |  |
-| Telangana GOs 2025 | 2,083 | ~ | 25,000 | 8.3% `[#--------------]` | stalled |  |
+| SC Verdicts (all, no filter) | 4,846 | +501 | 500,000 | 1.0% `[---------------]` | ~17.8d |  |
+| HC Verdicts (Telangana-filtered) | 8,247 | +669 | 100,000 | 8.2% `[#--------------]` | ~2.5d |  |
+| Telangana GOs 2025 | 2,138 | +55 | 25,000 | 8.6% `[#--------------]` | ~7.5d |  |
 
 ## Notes
 
-- **Biggest gap:** SC Verdicts (all, no filter) needs 495,655 more chunks
+- **Biggest gap:** SC Verdicts (all, no filter) needs 495,154 more chunks
 - **API server is down** — restart with `uvicorn api:app --port 8000`
 
 ## Targets Reference
