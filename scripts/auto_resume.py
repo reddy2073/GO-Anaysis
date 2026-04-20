@@ -4,6 +4,9 @@ Checks if all target document counts are reached, and if not, runs the scrapers.
 Designed to be run on system startup to resume loading after reboots.
 """
 
+import sys
+import os
+import subprocess
 import threading
 import time
 
@@ -25,7 +28,8 @@ TARGETS = {
     "constitution_chunks":      200,
     "central_acts_chunks":      5000,
     "state_acts_chunks":        2500,
-    "court_verdicts_chunks":    2000,
+    "sc_verdicts_chunks":       500000,
+    "hc_verdicts_chunks":       100000,
     "government_orders_chunks": 25000,
 }
 

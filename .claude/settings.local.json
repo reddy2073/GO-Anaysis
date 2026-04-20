@@ -41,7 +41,9 @@
       "Bash(powershell *)",
       "Bash(venv/Scripts/python.exe scrapers/verdicts_hf_scraper.py --sc-only)",
       "Bash(venv/Scripts/python.exe *)",
-      "Skill(update-config)"
+      "Skill(update-config)",
+      "Bash(wmic process *)",
+      "Bash(venv\\\\Scripts\\\\python.exe *)"
     ]
   }
 }

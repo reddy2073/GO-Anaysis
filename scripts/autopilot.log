@@ -1,0 +1,16 @@
+2026-04-19 23:54:06  ============================================================
+2026-04-19 23:54:06  LegalDebateAI Autopilot — checking collections
+2026-04-19 23:54:09    [WARN] count error for sc_verdicts_chunks: Error executing plan: Error sending backfill request to compactor: Error constructing hnsw segment reader: Error creating hnsw segment reader: Error loading hnsw index
+2026-04-19 23:54:10    [NEED]  constitution_chunks: 182/200 (91.0%) — launching scraper
+2026-04-19 23:54:10    [LAUNCH] constitution_chunks: C:\Users\vemul\LegalDebateAI\venv\Scripts\python.exe C:\Users\vemul\LegalDebateAI\scrapers\constitution_scraper.py
+2026-04-19 23:54:10    [NEED]  sc_verdicts_chunks: 0/500,000 (0.0%) — launching scraper
+2026-04-19 23:54:10    [LAUNCH] sc_verdicts_chunks: C:\Users\vemul\LegalDebateAI\venv\Scripts\python.exe C:\Users\vemul\LegalDebateAI\scrapers\verdicts_hf_scraper.py --sc-only
+2026-04-19 23:54:10    [NEED]  hc_verdicts_chunks: 0/100,000 (0.0%) — launching scraper
+2026-04-19 23:54:10    [LAUNCH] hc_verdicts_chunks: C:\Users\vemul\LegalDebateAI\venv\Scripts\python.exe C:\Users\vemul\LegalDebateAI\scrapers\verdicts_hf_scraper.py --hc-only
+2026-04-19 23:54:10    [NEED]  government_orders_chunks: 1,586/25,000 (6.3%) — launching scraper
+2026-04-19 23:54:10    [LAUNCH] government_orders_chunks: C:\Users\vemul\LegalDebateAI\venv\Scripts\python.exe C:\Users\vemul\LegalDebateAI\scrapers\ts_go_scraper.py --year 2025 --max 2500
+2026-04-19 23:54:10  ----------------------------------------
+2026-04-19 23:54:10  Complete  : 2 collections
+2026-04-19 23:54:10  Launched  : ['constitution_chunks', 'sc_verdicts_chunks', 'hc_verdicts_chunks', 'government_orders_chunks']
+2026-04-19 23:54:10  Already running: none
+2026-04-19 23:54:10  ============================================================
