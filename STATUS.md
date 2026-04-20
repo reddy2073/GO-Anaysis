@@ -1,20 +1,20 @@
 # LegalDebateAI — Data Ingestion Status
 
-> Last updated: **2026-04-19 10:00:18** (America/Chicago)
+> Last updated: **2026-04-19 21:22:15** (America/Chicago)
 
 ## Services
 
 | Service | Status |
 |---|---|
 | Scraper Pipeline | RUNNING |
-| API Server (port 8000) | RUNNING |
+| API Server (port 8000) | STOPPED |
 
 ## Overall Progress
 
 ```
-  100.0%  [##############################]
-   45,774 / 34,700 chunks
-  +97 chunks since last check  |  Est. completion: complete
+    1.9%  [------------------------------]
+   11,877 / 632,700 chunks
+  +0 chunks since last check  |  Est. completion: stalled
 ```
 
 ## Collection Breakdown
@@ -22,14 +22,16 @@
 | Collection | Chunks | +/- | Target | % Done | ETA | Active |
 |---|---:|---:|---:|---:|---:|---|
 | Constitution of India | 182 | ~ | 200 | 91.0% `[#############--]` | stalled |  |
-| Central Acts (IndiaCode) | 8,936 | +2 | 5,000 | 100.0% `[###############]` | complete | Scraping 63% (314/500) |
-| Telangana State Acts | 2,759 | +54 | 2,500 | 100.0% `[###############]` | complete | Complete |
-| Court Verdicts (HuggingFace) | 32,311 | +41 | 2,000 | 100.0% `[###############]` | complete | Complete |
-| Telangana GOs 2025 | 1,586 | ~ | 25,000 | 6.3% `[---------------]` | stalled |  |
+| Central Acts (IndiaCode) | 8,936 | ~ | 5,000 | 100.0% `[###############]` | complete | Scraping 63% (314/500) |
+| Telangana State Acts | 2,759 | ~ | 2,500 | 100.0% `[###############]` | complete | Complete |
+| SC Verdicts (all, no filter) | 0 | ~ | 500,000 | 0.0% `[---------------]` | stalled |  |
+| HC Verdicts (Telangana-filtered) | 0 | ~ | 100,000 | 0.0% `[---------------]` | stalled |  |
+| Telangana GOs 2025 | 0 | -1,586 | 25,000 | 0.0% `[---------------]` | stalled |  |
 
 ## Notes
 
-- **Biggest gap:** Telangana GOs 2025 needs 23,414 more chunks
+- **Biggest gap:** SC Verdicts (all, no filter) needs 500,000 more chunks
+- **API server is down** — restart with `uvicorn api:app --port 8000`
 
 ## Targets Reference
 
@@ -38,7 +40,8 @@
 | Constitution of India | 1 doc | ~200 | 200 |
 | Central Acts (IndiaCode) | 500 acts | ~10 | 5,000 |
 | Telangana State Acts | 300 acts | ~8 | 2,500 |
-| Court Verdicts (HuggingFace) | 400 files | ~5 | 2,000 |
+| SC Verdicts (all, no filter) | 76 parquet | ~6,500 | 500,000 |
+| HC Verdicts (Telangana-filtered) | 100 parquet | ~1,000 | 100,000 |
 | Telangana GOs 2025 | 2,500 GOs | ~10 | 25,000 |
 
 ---
